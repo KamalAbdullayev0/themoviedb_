@@ -18,12 +18,15 @@ class _AuthWidgetState extends State<AuthWidget> {
         title: const Text('Login to your account',
             style: TextStyle(color: Colors.white)),
       ),
-      body: ListView(
-        children: const [
-          SizedBox(height: 20),
-          _FormWidget(),
-          _HeaderWidget(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: const [
+            SizedBox(height: 20),
+            _FormWidget(),
+            _HeaderWidget(),
+          ],
+        ),
       ),
     );
   }
@@ -135,6 +138,15 @@ class _AuthButtonWidget extends StatelessWidget {
     final model = AuthProvider.watch(context)?.model;
     final onPressed =
         model?.canStartAuth == true ? () => model?.auth(context) : null;
+
+    final child = model?.isAuthProgress == true
+        ? const SizedBox(
+            height: 15,
+            width: 15,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ))
+        : const Text('Login');
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
@@ -147,7 +159,7 @@ class _AuthButtonWidget extends StatelessWidget {
           EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         ),
       ),
-      child: Text('Login'),
+      child: child,
     );
   }
 }
