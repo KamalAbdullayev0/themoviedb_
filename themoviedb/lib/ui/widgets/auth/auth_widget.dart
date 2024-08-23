@@ -19,7 +19,7 @@ class _AuthWidgetState extends State<AuthWidget> {
             style: TextStyle(color: Colors.white)),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: const [
             SizedBox(height: 20),
@@ -42,7 +42,7 @@ class _HeaderWidget extends StatelessWidget {
       color: Colors.black,
     );
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
