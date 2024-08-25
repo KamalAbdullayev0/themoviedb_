@@ -5,26 +5,44 @@ import 'package:themoviedb/ui/widgets/main_screen/main_screen_widget.dart';
 import 'package:themoviedb/ui/widgets/movie_details/movie_details_widget.dart';
 
 abstract class MainNavigationRouteNames {
-  static const auth = '/auth';
-  static const mainScreen = '/main_screen';
-  static const mainScreenMovieDetails = '/main_screen/movie_details';
+  static const auth = 'auth';
+  static const mainScreen = '/';
+  static const mainScreenMovieDetails = '/movie_details';
 }
 
 class MainNavigation {
+  String initialRoute(bool isAuth) {
+    return isAuth
+        ? MainNavigationRouteNames.mainScreen
+        : MainNavigationRouteNames.auth;
+  }
+
   final routes = <String, Widget Function(BuildContext)>{
-    '/auth': (context) =>
+    MainNavigationRouteNames.auth: (context) =>
         AuthProvider(model: AuthModel(), child: const AuthWidget()),
-    '/main_screen': (context) => const MainScreenWidget(),
-    '/main_screen/movie_details': (context) {
+    MainNavigationRouteNames.mainScreen: (context) => const MainScreenWidget(),
+    MainNavigationRouteNames.mainScreenMovieDetails: (context) {
       final arguments = ModalRoute.of(context)?.settings.arguments;
       if (arguments is int) {
         return MovieDetailsWidget(Movieid: arguments);
       } else {
         return MovieDetailsWidget(Movieid: 0);
       }
-
-      // final id = ModalRoute.of(context)?.settings.arguments as int;
-      // return MovieDetailsWidget(Movieid: id);
     }
   };
+  Route<Object> onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case MainNavigationRouteNames.mainScreenMovieDetails:
+        final arguments = settings.arguments;
+        final movieId = arguments is int ? arguments : 0;
+        return MaterialPageRoute(
+          builder: (context) => MovieDetailsWidget(Movieid: movieId),
+        );
+      default:
+        const widget = Text('Navigation error !!!');
+        return MaterialPageRoute(
+          builder: (context) => widget,
+        );
+    }
+  }
 }
