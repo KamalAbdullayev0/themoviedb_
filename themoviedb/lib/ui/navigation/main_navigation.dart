@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/Library/Widgets/Inherited/Provider.dart';
 import 'package:themoviedb/ui/widgets/auth/auth_model.dart';
 import 'package:themoviedb/ui/widgets/auth/auth_widget.dart';
 import 'package:themoviedb/ui/widgets/main_screen/main_screen_widget.dart';
@@ -19,7 +20,7 @@ class MainNavigation {
 
   final routes = <String, Widget Function(BuildContext)>{
     MainNavigationRouteNames.auth: (context) =>
-        AuthProvider(model: AuthModel(), child: const AuthWidget()),
+        NotifierProviderr(model: AuthModel(), child: const AuthWidget()),
     MainNavigationRouteNames.mainScreen: (context) => const MainScreenWidget(),
     MainNavigationRouteNames.mainScreenMovieDetails: (context) {
       final arguments = ModalRoute.of(context)?.settings.arguments;
