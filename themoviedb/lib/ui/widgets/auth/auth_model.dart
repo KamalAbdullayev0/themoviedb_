@@ -37,9 +37,20 @@ class AuthModel extends ChangeNotifier {
         username: login,
         password: password,
       );
+    } on ApiClientException catch (e) {
+      switch (e.type) {
+        case ApiClientExceptionType.Network:
+          _errorMessage = 'Network error';
+          break;
+        case ApiClientExceptionType.Auth:
+          _errorMessage = 'Authentication error';
+          break;
+        case ApiClientExceptionType.Other:
+          _errorMessage = 'Other error';
+          break;
+      }
     } catch (e) {
-      _errorMessage = 'Authentication error';
-      print('Error: $e');
+      _errorMessage = 'Unknown error';
     }
     _isAuthProgress = false;
 
